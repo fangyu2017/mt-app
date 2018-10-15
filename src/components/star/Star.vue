@@ -38,7 +38,7 @@
         while(result.length<LENGTH){
           result.push(CLA_OFF)
         }
-        console.log(result)
+        // console.log(result)
         return result
       }
     }

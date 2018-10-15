@@ -28,12 +28,12 @@ export default {
     fetch("/api/goods").then(res=>{
       return res.json()
     }).then(response=>{
-      console.log(response)
+      // console.log(response)
       if(response.code==0){
-        this.$nextTick(function () {
+        // this.$nextTick(function () {
         this.poiInfo=response.data.poi_info
-        console.log(this.poiInfo) // => 'updated'
-      })
+        // console.log(this.poiInfo) // => 'updated'
+      // })
 
       }
     })
