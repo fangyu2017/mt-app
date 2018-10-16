@@ -15,6 +15,7 @@
             <img :src="item.icon" v-if="item.icon" class="icon">
             {{item.name}}
           </p>
+          <i class="num" v-show="calculateCount(item.spus)">{{calculateCount(item.spus)}}</i>
         </li>
       </ul>
     </div>
@@ -48,6 +49,7 @@
                   <span class="unit">/{{food.unit}}</span>
                 </p>
               </div>
+              <CartControl class="cartControl-wrapper" :food="food"></CartControl>
             </li>
           </ul>
         </li>
@@ -55,7 +57,7 @@
     </div>
 
   <!-- 购物车 -->
-  <ShopCar :poiInfo="poiInfo"></ShopCar>
+  <ShopCar :poiInfo="poiInfo" :selectFoods="selectFoods"></ShopCar>
 
   </div>
 </template>
@@ -63,9 +65,11 @@
 <script>
 import BScroll from "better-scroll";
 import ShopCar from "../shopCar/ShopCar"
+import CartControl from "../cartControl/CartControl"
 export default {
   components:{
-    ShopCar
+    ShopCar,
+    CartControl
   },
   data() {
     return {
@@ -102,10 +106,12 @@ export default {
     },
     initScroll() {
       this.menuScroll = new BScroll(this.$refs.menuScroll, {
-        probeType: 3
+        probeType: 3,
+        click:true
       });
       this.foodScroll = new BScroll(this.$refs.foodScroll, {
-        probeType: 3
+        probeType: 3,
+        click:true
       });
       this.foodScroll.on("scroll", res => {
         this.scrollY = Math.abs(Math.round(res.y));
@@ -131,6 +137,15 @@ export default {
       let element = foodList[i];
       // console.log(element)
       this.foodScroll.scrollToElement(element, 2000);
+    },
+    calculateCount(spus){
+      let count=0
+      spus.forEach(food=>{
+        if(food.count>0){
+          count+=food.count
+        }
+      })
+      return count
     }
   },
   computed: {
@@ -147,6 +162,17 @@ export default {
         }
       }
       return 0;
+    },
+    selectFoods(){
+      let foods=[]
+      this.goods.forEach((myfood)=>{
+        myfood.spus.forEach((food)=>{
+          if(food.count>0){
+            foods.push(food)
+          }
+        })
+      })
+       return foods
     }
   }
 };
@@ -168,6 +194,7 @@ export default {
 .goods .menu-wrapper .menu-item {
   border-bottom: 1px solid #e4e4e4;
   padding: 16px 23px 15px 10px;
+  position: relative;
 }
 .goods .menu-wrapper .menu-item .text {
   font-size: 13px;
@@ -183,6 +210,19 @@ export default {
   width: 15px;
   height: 15px;
   vertical-align: middle;
+}
+.goods .menu-wrapper .menu-item .num{
+  position: absolute;
+  right: 5px;
+  top:5px;
+  width:13px;
+  height: 13px;
+  border-radius: 50%;
+  color:#fff;
+  background-color: red;
+  text-align: center;
+  font-size: 7px;
+  line-height: 13px;
 }
 .goods .foods-wrapper {
   flex: 1;
@@ -228,6 +268,11 @@ export default {
 }
 .goods .foods-wrapper .food-list .food-item .content {
   flex: 1;
+}
+.goods .foods-wrapper .food-list .food-item .cartControl-wrapper{
+  position: absolute;
+  right: 0;
+  bottom: 0;
 }
 /* 具体内容样式 */
 .goods .foods-wrapper .food-list .food-item .content .name {
