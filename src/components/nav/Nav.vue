@@ -1,7 +1,7 @@
 <template>
   <div class="nav">
     <router-link to="goods" class="nav-item">商品</router-link>
-    <router-link to="ratings" class="nav-item">评价</router-link>
+    <router-link to="ratings" class="nav-item">评价({{commentNum}})</router-link>
     <router-link  to="seller" class="nav-item">商家</router-link>
   </div>
 
@@ -10,8 +10,10 @@
 <script>
 
 export default {
-  components: {
-
+  props:{
+    commentNum:{
+      type:Number
+    }
   }
 };
 </script>

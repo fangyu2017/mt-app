@@ -3,7 +3,7 @@
     <!-- 头部 -->
     <Header :poiInfo="poiInfo"></Header>
       <!-- 导航 -->
-    <Nav></Nav>
+    <Nav :commentNum="commentNum"></Nav>
     <!-- 内容 -->
    <router-view></router-view>
   </div>
@@ -21,20 +21,23 @@ export default {
   },
   data(){
    return{
-      poiInfo:{}
+      poiInfo:{},
+      commentNum:0
    }
   },
   created(){
     fetch("/api/goods").then(res=>{
       return res.json()
     }).then(response=>{
-      // console.log(response)
       if(response.code==0){
-        // this.$nextTick(function () {
         this.poiInfo=response.data.poi_info
-        // console.log(this.poiInfo) // => 'updated'
-      // })
-
+      }
+    })
+    fetch("/api/ratings").then(res=>{
+      return res.json()
+    }).then(response=>{
+      if(response.code==0){
+        this.commentNum=response.data.comment_num
       }
     })
   }

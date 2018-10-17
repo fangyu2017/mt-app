@@ -33,7 +33,7 @@
           <h3 class="title">{{item.name}}</h3>
           <!-- 具体商列表分类 -->
           <ul>
-            <li class="food-item" v-for="(food ,index) in item.spus" :key="index">
+            <li class="food-item" v-for="(food ,index) in item.spus" :key="index" @click="showDetail(food)">
               <div class="icon" :style="head_bg(food.picture)"></div>
               <div class="content">
                 <h3 class="name">{{food.name}}</h3>
@@ -45,7 +45,7 @@
                 </div>
                 <img class="product" :src="food.product_label_picture" alt="">
                 <p class="price">
-                  <span class="text">{{food.min_price}}</span>
+                  <span class="text">￥{{food.min_price}}</span>
                   <span class="unit">/{{food.unit}}</span>
                 </p>
               </div>
@@ -58,7 +58,8 @@
 
   <!-- 购物车 -->
   <ShopCar :poiInfo="poiInfo" :selectFoods="selectFoods"></ShopCar>
-
+  <!-- 商品详情 -->
+  <ProductDetail :food="selectFood" ref="foodView"></ProductDetail>
   </div>
 </template>
 
@@ -66,10 +67,12 @@
 import BScroll from "better-scroll";
 import ShopCar from "../shopCar/ShopCar"
 import CartControl from "../cartControl/CartControl"
+import ProductDetail from "../productDetail/ProductDetail"
 export default {
   components:{
     ShopCar,
-    CartControl
+    CartControl,
+    ProductDetail,
   },
   data() {
     return {
@@ -79,7 +82,9 @@ export default {
       poiInfo:{},
       menuScroll: {},
       foodScroll: {},
-      scrollY: 0
+      scrollY: 0,
+      selectFood:{}
+
     };
   },
   created() {
@@ -88,7 +93,7 @@ export default {
         return res.json();
       })
       .then(response => {
-        console.log(response);
+        // console.log(response);
         if (response.code == 0) {
           this.container = response.data.container_operation_source;
           this.goods = response.data.food_spu_tags;
@@ -146,7 +151,12 @@ export default {
         }
       })
       return count
-    }
+    },
+    showDetail(food){
+      this.selectFood=food
+       this.$refs.foodView.showView()
+    },
+
   },
   computed: {
     currentIndex() {
