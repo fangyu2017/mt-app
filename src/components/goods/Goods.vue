@@ -164,8 +164,7 @@ export default {
         let minHeight = this.listHeight[i];
         let maxHeight = this.listHeight[i + 1];
         if (
-          !maxHeight ||
-          (this.scrollY >= minHeight && this.scrollY < maxHeight)
+          !maxHeight || (this.scrollY >= minHeight && this.scrollY < maxHeight)
         ) {
           // console.log(i);
           return i;

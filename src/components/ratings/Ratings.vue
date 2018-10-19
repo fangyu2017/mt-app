@@ -54,7 +54,7 @@
                 {{comment.user_name}}
               </div>
               <div class="time">
-                <!-- {{formatDate(comment.comment_time)}} -->
+                {{formatDate(comment.comment_time)}}
               </div>
               <div class="star-wrapper">
                 <span class="text">评分</span>
@@ -113,21 +113,24 @@ export default {
 				let fmt = 'yyyy.MM.dd';
 				if(/(y+)/.test(fmt)) { // 年
 					let year = date.getFullYear().toString();
-					fmt = fmt.replace(RegExp.$1, year);
+          fmt = fmt.replace(RegExp.$1, year);
+          // console.log(fmt)
 				}
 				if(/(M+)/.test(fmt)) { // 月
 					let mouth = date.getMonth() + 1;
 					if(mouth < 10) {
 						mouth = '0' + mouth;
 					}
-					fmt = fmt.replace(RegExp.$1, mouth);
+          fmt = fmt.replace(RegExp.$1, mouth);
+          // console.log(fmt)
 				}
 				if(/(d+)/.test(fmt)) { // 日
 					let mydate = date.getDate();
 					if(mydate < 10) {
 						mydate = '0' + mydate;
 					}
-					fmt = fmt.replace(RegExp.$1, mydate);
+          fmt = fmt.replace(RegExp.$1, mydate);
+          // console.log(fmt)
 				}
 				return fmt;
     }

@@ -5,7 +5,9 @@
       <!-- 导航 -->
     <Nav :commentNum="commentNum"></Nav>
     <!-- 内容 -->
-   <router-view></router-view>
+   <keep-alive>
+      <router-view></router-view>
+   </keep-alive>
   </div>
 
 </template>
